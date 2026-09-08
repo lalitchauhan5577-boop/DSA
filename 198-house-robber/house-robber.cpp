@@ -1,32 +1,17 @@
 class Solution {
 public:
-
-    int f(int index, vector<int>& nums, vector<int>& dp) {
-        // Base case
-        if (index < 0)
-            return 0;
-
-        if (index == 0)
-            return nums[0];
-
-        // Already calculated
-        if (dp[index] != -1)
-            return dp[index];
-
-        // Pick current house
-        int pick = nums[index] + f(index - 2, nums, dp);
-
-        // Don't pick current house
-        int notPick = f(index - 1, nums, dp);
-
-        return dp[index] = max(pick, notPick);
-    }
-
     int rob(vector<int>& nums) {
-        int n = nums.size();
+        int n=nums.size();
+        int prev=nums[0];
+        int prev2=0;
+        for(int i=1;i<n;i++){
+            int take=nums[i];if(i>1) take+=prev2;
+            int nottake=0+prev;
+            int curi=max(take,nottake);
+            prev2=prev;
+            prev=curi;
+        }
+        return prev;
 
-        vector<int> dp(n, -1);
-
-        return f(n - 1, nums, dp);
     }
 };
